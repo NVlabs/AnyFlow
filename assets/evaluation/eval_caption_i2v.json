@@ -1,0 +1,43 @@
+[
+
+    {
+        "prompt": "A towering, battle-scarred humanoid robot, reminiscent of a Transformer with powerful, segmented armor and glowing red optics, walking through the skeletal remains of a city ruin. Twisted metal and shattered concrete crunch under its heavy steps, as the robot scans the desolate, dust-choked skyline under an dark sky.",
+        "image": "assets/evaluation/example/images/1.jpg",
+        "chinese_prompt": "一台高大、布满战斗痕迹的人形机器人，让人联想到变形金刚，身披分段式厚重装甲，光学传感器泛着红光，穿行于城市废墟的骨架之中。扭曲的金属与碎裂的混凝土在它沉重的脚步下嘎吱作响，机器人扫视着阴暗天空下尘土弥漫、荒凉的天际线。"
+    },
+    {
+        "prompt": "A focused trail runner's powerful strides through a dense, sun-dappled forest. The camera tracks alongside, highlighting muscular exertion, sweat, and determined facial expression. Golden light filters through the canopy, illuminating the immediate path and kicking up dust from their precise footfalls. The vibrant greens and browns of nature blur slightly as the runner accelerates.",
+        "image": "assets/evaluation/example/images/2.jpg",
+        "chinese_prompt": "一位专注的越野跑者在阳光斑驳的密林中大步奔跑。镜头从侧面跟随，突出肌肉发力、汗水与坚毅的表情。金色光线穿过树冠，照亮脚下路径，精准落脚扬起尘土。随着跑者加速，自然的翠绿与棕褐微微模糊。"
+    },
+    {
+        "prompt": "A majestic eaglet, wings powerfully beating, soars high above against a vast, clear sky. Below, a dense, vibrant forest stretches to the horizon, a rich tapestry of emerald canopies. The young bird's keen eyes scan the verdant landscape, a silent hunter navigating the boundless expanse of nature.",
+        "image": "assets/evaluation/example/images/3.jpg",
+        "chinese_prompt": "一只幼鹰有力地振翅高飞，背景是辽阔晴朗的天空。下方，茂密繁盛的森林一直延伸到地平线，宛如一片翠绿的树冠织锦。这只年轻的猛禽目光锐利，扫视着葱郁大地，如同无声猎手在无垠自然中穿行。"
+    },
+    {
+        "prompt": "The scene opens with a vibrant, slightly stylized game-engine aesthetic. A rugged off-road vehicle, perhaps a classic 4x4 or a rally car, is navigating a winding dirt track deep within a dense forest. The camera maintains a dynamic third-person perspective, closely following the car from just behind and slightly above, smoothly banking with its turns. Sunlight dapples through the canopy, creating dynamic shadows that dance across the road and the car's chassis. The trees are a mix of towering pines and broadleaf deciduous varieties, their leaves rendered with a slight autumnal tint. Dust kicks up realistically from the tires as the car takes corners, and subtle lens flares might catch the sun's rays. The UI could feature a minimalist speedometer and a small map. The sound design emphasizes engine hum, gravel crunching, and ambient forest noises.",
+        "image": "assets/evaluation/example/images/4.jpg",
+        "chinese_prompt": "画面以鲜亮、略带风格化的游戏引擎美学开场。一辆粗犷的越野车——也许是经典四驱或拉力赛车——在密林深处蜿蜒的土路上行驶。镜头保持动态第三人称，从略后方略高处紧贴跟车，随转弯平稳摆动。阳光穿过树冠洒下斑驳光影，在路面与车身上跳动。树木既有高大松树也有阔叶落叶林，叶片略带秋色。转弯时轮胎扬起逼真的尘土，阳光偶尔在镜头上形成轻微光晕。界面可配有极简速度表与小地图。音效突出引擎低鸣、碎石碾压与森林环境音。"
+    },
+    {
+        "prompt": "A determined Corgi perches precariously on a sturdy tree branch, about two meters high, its body tensed and eyes fixed on the grassy ground below. Sunlight dappled through leaves highlights its focused expression and prepared stance. Its ears are alert, legs coiled, ready for an adventurous leap, conveying a mix of excitement and anticipation for the impending jump. Then it jumps to the ground.",
+        "image": "assets/evaluation/example/images/5.jpg",
+        "chinese_prompt": "一只坚定的柯基稳稳蹲在两米高的粗壮树枝上，身体紧绷，目光锁定下方草地。阳光透过树叶洒在它专注的神情与蓄势待发的姿态上。双耳竖起，四肢蜷曲，准备冒险一跃，既兴奋又期待即将起跳。随后它跳向地面。"
+    },
+    {
+        "prompt": "An astronaut in a white suit, holding a map, stands facing a knight in shining silver armor. The astronaut has a futuristic helmet with a blue glowing visor and a backpack with various gadgets, while the knight wears a helmet that covers their face and holds a glowing golden sword. The astronaut walk to the knight and embrace him. They are in a rocky, barren landscape. The scene suggests a meeting between two different eras or worlds, blending fantasy and science fiction elements.",
+        "image": "assets/evaluation/example/images/6.jpg",
+        "chinese_prompt": "一名身穿白色宇航服、手持地图的宇航员与一位身披闪亮银甲的骑士相对而立。宇航员戴着未来感头盔，面罩泛着蓝光，背包挂满各式装置；骑士头盔遮面，手持发光金剑。宇航员走向骑士并与他拥抱。背景是岩石嶙峋的荒原。画面暗示两个不同时代或世界的相遇，融合奇幻与科幻。"
+    },
+    {
+        "prompt": "Lunar astronaut on horseback, riding towards a vibrant blue Earth in the distance. The scene is bathed in surreal, soft moonlight, highlighting the stark lunar landscape and the majestic, slow-motion gait of the horse.",
+        "image": "assets/evaluation/example/images/7.jpg",
+        "chinese_prompt": "月球上的宇航员骑在马上，朝远方那颗蔚蓝的地球行进。画面笼罩在超现实而柔和的月光中，突出荒凉的月面与马匹庄重、慢动作般的步态。"
+    },
+    {
+        "prompt": "a stunning blonde woman sits at a table, directly facing the lens. Her luminous blonde hair cascades around her face, highlighting her composed features. A teacup is placed neatly on the table in front of her, completing a picture of quiet dignity and elegance. With slow, deliberate grace, she reaches out, her fingers delicately closing around the teacup. She raises it smoothly to her lips, taking a slow, appreciative sip of the tea before gently lowering it back to its place on the table.",
+        "image": "assets/evaluation/example/images/8.jpg",
+        "chinese_prompt": "一位惊艳的金发女子坐在桌前，正对镜头。柔顺金发垂落脸侧，衬出从容五官。桌上整齐摆着一只茶杯，构成静谧端庄的画面。她缓缓伸手，指尖轻拢杯身，平稳举至唇边，慢慢品味一口茶，再轻轻放回桌面。"
+    }
+]

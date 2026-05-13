@@ -1,0 +1,10 @@
+{
+    "wids_version": 1,
+    "shardlist": [
+        {
+            "url": "datasets/vidprom_dummy/00000001.tar",
+            "nsamples": 159,
+            "filesize": 687677440
+        }
+    ]
+}

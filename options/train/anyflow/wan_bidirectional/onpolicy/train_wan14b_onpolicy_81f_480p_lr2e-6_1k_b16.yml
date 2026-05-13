@@ -1,0 +1,147 @@
+name: train_wan14b_onpolicy_81f_480p_lr2e-6_1k_b16
+mode: train
+manual_seed: 0
+mixed_precision: true
+
+# dataset and data loader settings
+datasets:
+  train:
+    type: T2VTarDataset
+    meta_path: assets/data/meta/vidprom_text2video_dummy_dataset/raw.json
+    num_frames: 81
+    data_dtype: .mp4
+    dataloader_cfg:
+      batch_size_per_gpu: 1
+      num_workers: 0
+      shuffle_chunk_size: 1000
+      drop_last: true
+
+  val:
+    type: VBenchT2VDataset
+    num_samples_per_prompt: 5
+    dataloader_cfg:
+      batch_size_per_gpu: 1
+
+  sample:
+    type: PromptDataset
+    prompt_path: assets/evaluation/eval_caption_t2v.json
+    preprocess_cfg:
+      height: 480
+      width: 832
+    dataloader_cfg:
+      batch_size_per_gpu: 1
+
+models:
+  transformer_cfg:
+    model_name: experiments/pretrained_models/Wan2.1-T2V-14B-Diffusers
+    model_type: FAR_Wan_Transformer3DModel
+    enable_gradient_checkpoint: true
+    pretrained_path: experiments/train_wan14b_student_shift5_81f_480p_lr5e-5_4k_b16/models/step_4000.pt
+    pretrained_weight: ema
+    lora_config:
+      lora_rank: 256
+      lora_alpha: 256
+      target_module_name: ["attn1.to_q", "attn1.to_k", "attn1.to_v", "attn1.to_out.0", "ffn.net.0.proj", "ffn.net.2", "delta_embedder", "time_embedder"]
+    param_names_to_optimize: ["lora_A", "lora_B"]
+    i2v_prob: 0
+  real_cfg:
+    model_name: experiments/pretrained_models/Wan2.1-T2V-14B-Diffusers
+    model_type: FAR_Wan_Transformer3DModel
+    pretrained_path: experiments/train_wan14b_teacher_shift5_81f_480p_lr5e-5_4k_b16/models/step_4000.pt
+    pretrained_weight: ema
+    lora_config:
+      lora_rank: 256
+      lora_alpha: 256
+      target_module_name: ["attn1.to_q", "attn1.to_k", "attn1.to_v", "attn1.to_out.0", "ffn.net.0.proj", "ffn.net.2"]
+  discriminator_cfg:
+    model_name: experiments/pretrained_models/Wan2.1-T2V-14B-Diffusers
+    model_type: FAR_Wan_Transformer3DModel
+    pretrained_path: experiments/train_wan14b_teacher_shift5_81f_480p_lr5e-5_4k_b16/models/step_4000.pt
+    pretrained_weight: ema
+    enable_gradient_checkpoint: true
+    lora_config:
+      lora_rank: 256
+      lora_alpha: 256
+      target_module_name: ["attn1.to_q", "attn1.to_k", "attn1.to_v", "attn1.to_out.0", "ffn.net.0.proj", "ffn.net.2"]
+    param_names_to_optimize: ["lora_A", "lora_B"]
+  text_encoder_cfg:
+    drop_text_ratio: 0.1
+    negative_embedding_path: assets/negative_embedding/wan_negemb_cn.pth
+    fuse_guidance_scale: 3.0
+  vae_cfg:
+    load: true
+  scheduler_cfg:
+    shift: 5.0
+    weight_type: beta08
+  dmd_scheduler_cfg:
+    shift: 5.0
+  rollout_cfg:
+    rollout_pipeline: WanAnyFlowPipeline
+    num_inference_steps_list: [2, 4, 8, 16, 50]
+  dmd_cfg:
+    dmd_weight: 1.0
+    dmd_batch_size: 1
+    real_guidance_scale: 3.0
+  flowmap_cfg:
+    gate_value: 0.25
+    deltatime_type: r
+    diffusion_ratio: 0.5
+    consistency_ratio: 0.25
+    epsilon: 5
+
+# path
+path:
+  pretrain_network: ~
+
+# training settings
+train:
+  train_pipeline: Wan_AnyFlow_OnPolicy_Trainer
+
+  optim_g:
+    type: AdamW
+    lr: !!float 2e-6
+    weight_decay: !!float 0
+    betas: [0.0, 0.999]
+
+  optim_d:
+    type: AdamW
+    lr: !!float 2e-6
+    weight_decay: !!float 0
+    betas: [0.0, 0.999]
+
+  discriminator_update_ratio: 1
+  max_grad_norm: 1.0
+
+  ema_decay: 0.99
+  ema_warmup_step: 200
+
+  lr_scheduler: constant_with_warmup
+
+  warmup_iter: 0
+  total_iter: 1200
+
+# validation settings
+val:
+  val_pipeline: WanAnyFlowPipeline
+  skip_first_eval: true
+  sample_freq: 200
+  eval_freq: 800
+  sample_cfg:
+    height: 480
+    width: 832
+    seed: [0, 1]
+    guidance_scale: 1.0
+    num_inference_steps: [4, 24]
+    num_vbench_inference_steps: 4
+    num_frames: 81
+    negative_prompt: "色调艳丽，过曝，静态，细节模糊不清，字幕，风格，作品，画作，画面，静止，整体发灰，最差质量，低质量，JPEG压缩残留，丑陋的，残缺的，多余的手指，画得不好的手部，画得不好的脸部，畸形的，毁容的，形态畸形的肢体，手指融合，静止不动的画面，杂乱的背景，三条腿，背景人很多，倒着走"
+  eval_cfg:
+    vbench: ~
+    resolution: "7-4"
+
+# logging settings
+logger:
+  print_freq: 1
+  save_checkpoint_freq: 50
+  save_eval_checkpoint_freq: 400
+  use_wandb: false
