@@ -89,6 +89,51 @@ torchrun --nnodes 1 --nproc_per_node=8 --master_port 17154 \
 Set `--nproc_per_node` to the number of GPUs you use. Logs and checkpoints go under `experiments/<run_name>/` (the `name` field in the YAML).
 
 
+## 🤗 Using with Hugging Face `diffusers`
+
+The `nvidia/AnyFlow-*-Diffusers` checkpoints can be loaded through the standard `diffusers` API:
+
+```python
+import torch
+from diffusers import AnyFlowPipeline
+from diffusers.utils import export_to_video
+
+pipe = AnyFlowPipeline.from_pretrained(
+    "nvidia/AnyFlow-Wan2.1-T2V-1.3B-Diffusers",
+    torch_dtype=torch.bfloat16,
+).to("cuda")
+
+video = pipe(
+    prompt="A red panda eating bamboo in a forest, cinematic lighting",
+    num_inference_steps=4,
+    num_frames=33,
+).frames[0]
+export_to_video(video, "anyflow_t2v.mp4", fps=16)
+```
+
+For the FAR variant (T2V / I2V / V2V via `context_sequence`):
+
+```python
+import torch
+from diffusers import AnyFlowFARPipeline
+from diffusers.utils import export_to_video
+
+pipe = AnyFlowFARPipeline.from_pretrained(
+    "nvidia/AnyFlow-FAR-Wan2.1-1.3B-Diffusers",
+    torch_dtype=torch.bfloat16,
+).to("cuda")
+
+video = pipe(
+    prompt="A red panda eating bamboo in a forest, cinematic lighting",
+    num_inference_steps=4,
+    num_frames=81,
+).frames[0]
+export_to_video(video, "anyflow_far_t2v.mp4", fps=16)
+```
+
+The same checkpoints also work with the `demo.py` and training entry points in this repository. See the [diffusers AnyFlow docs](https://huggingface.co/docs/diffusers/api/pipelines/anyflow) for the full reference.
+
+
 ## 📊 Evaluation
 
 Evaluation uses **`mode: eval`** configs under `options/test/anyflow/`.
