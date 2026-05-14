@@ -110,11 +110,12 @@ function initTeaserAutoplaySync() {
 }
 
 function copyBibtex() {
-    const bibtexText = `@article{gu26anyflow,
-      title={AnyFlow: Any-Step Video Diffusion Model with On-Policy Flow Map Distillation},
-      author={Yuchao Gu and Guian Fang and Yuxin Jiang and Weijia Mao and Song Han and Han Cai and Mike Zheng Shou},
-      year={2026},
-}`;
+    const codeEl = document.querySelector('.bibtex-box pre code');
+    if (!codeEl) {
+        alert('BibTeX block not found.');
+        return;
+    }
+    const bibtexText = codeEl.textContent.trim();
 
     navigator.clipboard.writeText(bibtexText).then(() => {
         const btn = document.querySelector('.copy-btn');
