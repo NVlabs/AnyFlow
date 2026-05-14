@@ -1,6 +1,6 @@
 # 🚀 AnyFlow
 
-[![arXiv](https://img.shields.io/badge/arXiv-Coming%20Soon-b31b1b.svg)]()
+[![arXiv](https://img.shields.io/badge/arXiv-2605.13724-b31b1b.svg)](https://arxiv.org/abs/2605.13724)
 [![Project Page](https://img.shields.io/badge/Project-Website-orange)](https://nvlabs.github.io/AnyFlow/)
 [![Gradio Demo](https://img.shields.io/badge/Gradio-Demo-blue?logo=gradio)](https://nvlabs.github.io/AnyFlow/demo/)
 [![HuggingFace](https://img.shields.io/badge/🤗%20HuggingFace-Models-yellow)](https://huggingface.co/collections/nvidia/anyflow)
@@ -137,10 +137,10 @@ If you find AnyFlow useful in your research, please cite our work:
 
 ```bibtex
 @article{gu2026anyflow,
-  title   = {AnyFlow: Any-Step Video Diffusion Model with On-Policy Flow Map Distillation},
-  author  = {...},
-  journal = {...},
-  year    = {2026}
+    title={AnyFlow: Any-Step Video Diffusion Model with On-Policy Flow Map Distillation},
+    author={Gu, Yuchao and Fang, Guian and Jiang, Yuxin and Mao, Weijia and Han, Song and Cai, Han and Shou, Mike Zheng},
+    journal={arXiv preprint arXiv:2605.13724},
+    year={2026}
 }
 
 @article{gu2025long,
