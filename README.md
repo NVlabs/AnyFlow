@@ -1,6 +1,6 @@
 # 🚀 AnyFlow Gradio Demo
 
-[![arXiv](https://img.shields.io/badge/arXiv-Coming%20Soon-b31b1b.svg)]()
+[![arXiv](https://img.shields.io/badge/arXiv-2605.13724-b31b1b.svg)](https://arxiv.org/abs/2605.13724)
 [![Project Page](https://img.shields.io/badge/Project-Website-orange)](https://nvlabs.github.io/AnyFlow/)
 [![Gradio Demo](https://img.shields.io/badge/Gradio-Demo-blue?logo=gradio)](https://nvlabs.github.io/AnyFlow/demo/)
 [![HuggingFace](https://img.shields.io/badge/🤗%20HuggingFace-Models-yellow)](https://huggingface.co/collections/nvidia/anyflow)
