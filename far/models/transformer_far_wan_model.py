@@ -584,6 +584,16 @@ class WanTransformerBlock(nn.Module):
         return hidden_states
 
 
+# Bind this class under the AnyFlow* names that `model_index.json` resolves via
+# `getattr(diffusers, ...)`. Idempotent: if the diffusers AnyFlow classes are
+# already importable, the existing bindings win.
+def _register_diffusers_aliases(cls):
+    import diffusers as _diffusers
+    for name in ('AnyFlowTransformer3DModel', 'AnyFlowFARTransformer3DModel'):
+        if not hasattr(_diffusers, name):
+            setattr(_diffusers, name, cls)
+
+
 @MODEL_REGISTRY.register()
 class FAR_Wan_Transformer3DModel(ModelMixin, ConfigMixin, PeftAdapterMixin, FromOriginalModelMixin, CacheMixin):
     r"""
@@ -694,6 +704,47 @@ class FAR_Wan_Transformer3DModel(ModelMixin, ConfigMixin, PeftAdapterMixin, From
             self.setup_far_model()
         if init_flowmap_model:
             self.setup_flowmap_model(gate_value=self.config.gate_value, deltatime_type=self.config.deltatime_type)
+
+    @classmethod
+    def from_pretrained(cls, pretrained_model_name_or_path, **kwargs):
+        """Load checkpoints whose `transformer/config.json` omits `init_*_model`.
+
+        When the config does not specify which submodules to build, derive the
+        flags from `_class_name`:
+
+          AnyFlowTransformer3DModel    -> flow-map embedder
+          AnyFlowFARTransformer3DModel -> flow-map embedder + FAR patch embedding
+                                          + default `chunk_partition` for 81-frame inference
+
+        Configs that already set these fields are passed through unchanged; user
+        kwargs always win.
+        """
+        load_kwargs = {
+            k: kwargs[k]
+            for k in (
+                'subfolder', 'cache_dir', 'force_download', 'proxies',
+                'local_files_only', 'token', 'revision', 'variant'
+            )
+            if k in kwargs
+        }
+        try:
+            config_dict = cls.load_config(pretrained_model_name_or_path, **load_kwargs)
+        except Exception:
+            return super().from_pretrained(pretrained_model_name_or_path, **kwargs)
+
+        if (
+            'init_flowmap_model' not in config_dict
+            and 'init_flowmap_model' not in kwargs
+        ):
+            cls_name = config_dict.get('_class_name', '') or ''
+            is_far = 'FAR' in cls_name
+            kwargs.setdefault('init_flowmap_model', True)
+            kwargs.setdefault('init_far_model', is_far)
+            # The pipeline in this repository reads `chunk_partition` from the
+            # transformer config; fall back to the 81-frame schedule when absent.
+            if is_far and 'chunk_partition' not in config_dict and 'chunk_partition' not in kwargs:
+                kwargs.setdefault('chunk_partition', [1, 3, 3, 3, 3, 3, 3, 2])
+        return super().from_pretrained(pretrained_model_name_or_path, **kwargs)
 
     def setup_flowmap_model(self, gate_value=0, deltatime_type='r'):
         inner_dim = self.config.num_attention_heads * self.config.attention_head_dim
@@ -1214,3 +1265,7 @@ class FAR_Wan_Transformer3DModel(ModelMixin, ConfigMixin, PeftAdapterMixin, From
             return (output,)
 
         return Transformer2DModelOutput(sample=output)
+
+
+# See _register_diffusers_aliases above.
+_register_diffusers_aliases(FAR_Wan_Transformer3DModel)

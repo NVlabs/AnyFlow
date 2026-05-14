@@ -111,6 +111,39 @@ class WanAnyFlowPipeline(DiffusionPipeline, WanLoraLoaderMixin):
         self.video_processor = VideoProcessor(vae_scale_factor=self.vae_scale_factor_spatial)
         self.use_mean_velocity = use_mean_velocity
 
+    @classmethod
+    def from_pretrained(cls, pretrained_model_name_or_path, **kwargs):
+        """Load checkpoints whose `model_index.json` references the diffusers AnyFlow
+        class names.
+
+        Pre-instantiates the transformer and scheduler with the classes defined in
+        this repository and passes them as kwargs, so `DiffusionPipeline.from_pretrained`
+        skips its module class lookup for those entries. text_encoder / tokenizer / vae
+        still load normally.
+        """
+        load_kwargs = {
+            k: kwargs[k]
+            for k in (
+                'cache_dir', 'force_download', 'proxies', 'local_files_only',
+                'token', 'revision', 'variant'
+            )
+            if k in kwargs
+        }
+        if 'transformer' not in kwargs:
+            kwargs['transformer'] = FAR_Wan_Transformer3DModel.from_pretrained(
+                pretrained_model_name_or_path,
+                subfolder='transformer',
+                torch_dtype=kwargs.get('torch_dtype'),
+                **load_kwargs,
+            )
+        if 'scheduler' not in kwargs:
+            kwargs['scheduler'] = FlowMapDiscreteScheduler.from_pretrained(
+                pretrained_model_name_or_path,
+                subfolder='scheduler',
+                **load_kwargs,
+            )
+        return super().from_pretrained(pretrained_model_name_or_path, **kwargs)
+
     def _get_t5_prompt_embeds(
         self,
         prompt: Union[str, List[str]] = None,
