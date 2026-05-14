@@ -104,3 +104,15 @@ class FlowMapDiscreteScheduler(SchedulerMixin, ConfigMixin):
         r_timestep = r_timestep.view(*r_timestep.shape, *([1] * (model_output.ndim - r_timestep.ndim)))
         prev_sample = sample - (timestep - r_timestep) * model_output
         return prev_sample.to(model_output.dtype)
+
+
+# Expose this scheduler under the name used by the diffusers AnyFlow pipeline.
+FlowMapEulerDiscreteScheduler = FlowMapDiscreteScheduler
+
+# Bind the same alias on the `diffusers` package so it can be resolved via
+# `getattr`. Idempotent: if diffusers already provides this class, the existing
+# binding wins.
+import diffusers as _diffusers  # noqa: E402
+
+if not hasattr(_diffusers, 'FlowMapEulerDiscreteScheduler'):
+    _diffusers.FlowMapEulerDiscreteScheduler = FlowMapEulerDiscreteScheduler
