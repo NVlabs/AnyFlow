@@ -1,0 +1,23 @@
+--extra-index-url https://download.pytorch.org/whl/cu128
+torch
+torchvision
+torchaudio
+
+accelerate==1.10.0
+datasets
+decord2
+diffusers==0.35.1
+dreamsim
+einops==0.8.1
+ftfy
+imageio==2.37.0
+imageio-ffmpeg==0.6.0
+omegaconf==2.3.0
+opencv-python-headless
+peft==0.17.0
+pre-commit
+sentencepiece
+transformers==4.49.0
+wandb==0.19.7
+wandb[media]
+gradio
